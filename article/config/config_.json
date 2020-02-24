@@ -1,0 +1,14 @@
+{
+  "server": {
+    "host": "127.0.0.1,
+    "port": "8080"
+  },
+  "db": {
+    "driver": "postgres",
+    "host": "127.0.0.1",
+    "user": "postgres",
+    "password": "",
+    "name": "articledb",
+    "port": "5432"
+  }
+}
