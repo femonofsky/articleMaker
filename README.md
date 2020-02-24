@@ -1,5 +1,5 @@
 ## ArticleMaker
- validating  competencies based on the skills you gathered from the learning platform at Andela
+ validating competence skills based on the skills i gathered from (appliedGo) learning platform at Andela
  
 
 ## Build status
