@@ -4,4 +4,6 @@ addons:
 services:
   - postgresql
 
-script: "cd wordcounter/"
+script: go test -v ./wordcounter/.
+#  - "cd wordcounter/"
+#  -
