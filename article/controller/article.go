@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 // ArticleController Handler
@@ -15,7 +16,6 @@ type ArticleController struct {
 	logger *log.Logger
 }
 
-// TODO: Filter by Date,
 // GetAll Handler: handle get all articles and can be filter by category,publisher, created_at, published_at
 func (ac *ArticleController) GetAll(w io.Writer, r *http.Request) (interface{}, int, error) {
 	article := model.Article{}
@@ -25,24 +25,21 @@ func (ac *ArticleController) GetAll(w io.Writer, r *http.Request) (interface{}, 
 	if publisher := r.FormValue("publisher"); publisher != "" {
 		article.PublisherName = publisher
 	}
-	//if createdAt := r.FormValue("created_at"); createdAt != "" {
-	//
-	//	createdAtTime, err := time.Parse(DateTimeLayout, createdAt)
-	//	if err != nil {
-	//		return nil, http.StatusBadRequest , fmt.Errorf("unable to convert time %v", err)
-	//	}
-	//
-	//	article.CreatedAt = createdAtTime
-	//}
-	//
-	//if publishedAt := r.FormValue("published_at"); publishedAt != "" {
-	//	//convert publishedAt to time object
-	//	publishedAtTime, err :=  time.Parse(DateTimeLayout, publishedAt)
-	//	if err != nil {
-	//		return nil, http.StatusBadRequest, err
-	//	}
-	//	article.PublishedAt = publishedAtTime
-	//}
+
+	if createdAt := r.FormValue("created_at"); createdAt != "" {
+		vale, err  := time.Parse(model.DateTimeLayout,createdAt)
+		if err != nil {
+			return nil, http.StatusBadRequest, fmt.Errorf("wrong format of date %v", err)
+		}
+		article.CreatedAt = vale
+	}
+	if publishedAt := r.FormValue("published_at"); publishedAt != "" {
+		vale, err  := time.Parse(model.DateTimeLayout,publishedAt)
+		if err != nil {
+			return nil, http.StatusBadRequest, fmt.Errorf("wrong format of date %v", err)
+		}
+		article.PublishedAt = vale
+	}
 
 	articles, err := model.GetArticles(article)
 	if err != nil {
@@ -101,7 +98,6 @@ func (ac *ArticleController) Delete(w io.Writer, r *http.Request) (interface{}, 
 	return nil, http.StatusNoContent, nil
 }
 
-// TODO: still giving error
 // PUT Handler: Update article
 func (ac *ArticleController) Put(w io.Writer, r *http.Request) (interface{}, int, error) {
 	vars := mux.Vars(r)
@@ -123,7 +119,6 @@ func (ac *ArticleController) Put(w io.Writer, r *http.Request) (interface{}, int
 	return &article, http.StatusOK, nil
 
 }
-
 
 // newArticle creates a new Article Handle
 func newArticle(logger *log.Logger) *ArticleController {

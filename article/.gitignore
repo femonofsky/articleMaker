@@ -2,3 +2,5 @@
 ./vendor/.
 vendor
 model/articleTest.db
+config/articleTest.db
+controller/articleTest.db
