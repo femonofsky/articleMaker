@@ -12,7 +12,7 @@ This making simple RESTful API with Go using **gorilla/mux** (A nice mux library
 
 Before running API server, you should set the database config with yours or set the your database config with my values in the config folder
 and  [config.json](https://github.com/femonofsky/articleMaker/blob/master/article/config/config.json)
-```go
+```json
 {
   "server": {
     "host": "127.0.0.1",
