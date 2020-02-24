@@ -53,6 +53,5 @@ func Migrate(db *gorm.DB) *gorm.DB {
 	return db
 }
 
+// Date Format
 const DateTimeLayout = "2006-01-02 15:04:05"
-
-

@@ -18,19 +18,19 @@ type Article struct {
 	CategoryName  string    `json:"category" validate:"required"`
 	Publisher     Publisher `gorm:"association_foreignKey:PublisherName" json:"-"`
 	PublisherName string    `json:"publisher" validate:"required"`
-	CreatedAt     time.Time  `json:"created_at"`
-	PublishedAt   time.Time  `json:"published_at" `
+	CreatedAt     time.Time `json:"created_at"`
+	PublishedAt   time.Time `json:"published_at" `
 	UpdatedAt     time.Time `json:"-"`
 }
 
 // UnmarshalJSON parses the json string in the custom format
 func (article *Article) UnmarshalJSON(data []byte) (err error) {
 	var auxArticle struct {
-		Title         string    `json:"title"`
-		Body          string    `json:"body"`
-		CategoryName  string    `json:"category" `
-		PublisherName string    `json:"publisher"`
-		PublishedAt   string  `json:"published_at" `
+		Title         string `json:"title"`
+		Body          string `json:"body"`
+		CategoryName  string `json:"category" `
+		PublisherName string `json:"publisher"`
+		PublishedAt   string `json:"published_at" `
 	}
 
 	dec := json.NewDecoder(bytes.NewBuffer(data))
@@ -50,30 +50,28 @@ func (article *Article) UnmarshalJSON(data []byte) (err error) {
 	}
 	return nil
 
-
 }
 
 //MarshalJSON writes a quotes string in the custom format
 func (article *Article) MarshalJSON() ([]byte, error) {
-	return json.Marshal( &struct{
-		ID            uint `json:"id"`
-		Title   string  `json:"title"`
-		Body   string  `json:"body"`
-		CategoryName string `json:"category"`
+	return json.Marshal(&struct {
+		ID            uint   `json:"id"`
+		Title         string `json:"title"`
+		Body          string `json:"body"`
+		CategoryName  string `json:"category"`
 		PublisherName string `json:"publisher"`
-		CreatedAt string `json:"created_at"`
-		PublishedAt string `json:"published_at"`
-		} {
-		ID: 	article.ID,
-		Title: article.Title,
-		Body: article.Body,
-		CategoryName: article.CategoryName,
+		CreatedAt     string `json:"created_at"`
+		PublishedAt   string `json:"published_at"`
+	}{
+		ID:            article.ID,
+		Title:         article.Title,
+		Body:          article.Body,
+		CategoryName:  article.CategoryName,
 		PublisherName: article.PublisherName,
-		CreatedAt: article.CreatedAt.Format(DateTimeLayout),
-		PublishedAt: article.PublishedAt.Format(DateTimeLayout),
-		})
+		CreatedAt:     article.CreatedAt.Format(DateTimeLayout),
+		PublishedAt:   article.PublishedAt.Format(DateTimeLayout),
+	})
 }
-
 
 // Validate: check if all Article fields met requirements
 func (article *Article) Validate() error {
