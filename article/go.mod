@@ -1,4 +1,4 @@
-module github.com/femonofsky/ArticleMaker/article
+module github.com/femonofsky/articleMaker/article
 
 go 1.13
 
