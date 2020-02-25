@@ -3,7 +3,7 @@ language: go
 #  postgresql: "9.6"
 #services:
 #  - postgresql
-env: GO111MODULE=on GOFLAGS='-mod vendor'
+env: GO111MODULE=on
 
 
 
