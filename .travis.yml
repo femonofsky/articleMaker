@@ -1,8 +1,8 @@
 language: go
-addons:
-  postgresql: "9.6"
-services:
-  - postgresql
+#addons:
+#  postgresql: "9.6"
+#services:
+#  - postgresql
 
 script:
   - export GO111MODULE=on
