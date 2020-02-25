@@ -7,10 +7,10 @@ env: GO111MODULE=on
 
 
 
-
 notifications:
 email: false
 
 
 script:
   - cd ./article
+  - go test -v ./..
