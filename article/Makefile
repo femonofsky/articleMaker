@@ -77,6 +77,7 @@ go-build:
 
 go-test:
 	@echo " > Running testcases"
+	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go install
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go test -v ./config/
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go test -v ./model/
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go test -v ./controller/

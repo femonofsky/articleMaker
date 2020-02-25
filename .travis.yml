@@ -4,5 +4,9 @@ addons:
 services:
   - postgresql
 
-script: go test -v ./article/config/.  && go test -v ./article/controller/.  && go test -v ./article/model/.
+script:
+  cd ./article
+  go test ./..
+  make test
+#  go test -v ./article/config/.  && go test -v ./article/controller/.  && go test -v ./article/model/.
 #  - "cd wordcounter/"
