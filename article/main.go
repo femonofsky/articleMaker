@@ -33,6 +33,7 @@ func main() {
 	if err != nil {
 		logger.Fatalf("could not initialize DB connection : %v ", err.Error())
 	}
+	// Migrate all Table into DB if it doesn't exist
 	DB = model.Migrate(DB)
 
 	defer DB.Close()
