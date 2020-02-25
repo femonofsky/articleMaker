@@ -7,7 +7,3 @@ services:
 script:
   - export GO111MODULE=on
   - cd ./article
-#  - go test ./..
-  - make test
-#  go test -v ./article/config/.  && go test -v ./article/controller/.  && go test -v ./article/model/.
-#  - "cd wordcounter/"
