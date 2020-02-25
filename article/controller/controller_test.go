@@ -62,64 +62,7 @@ func refreshAllTable(Db *gorm.DB) error {
 }
 
 
-//func TestNew(t *testing.T) {
-//
-//	srv := httptest.NewServer(New(nil))
-//	defer srv.Close()
-//
-//	res, err := http.Get(fmt.Sprintf("%s/article/", srv.URL))
-//	if err != nil {
-//		t.Fatalf("could not send GET request: %v", err)
-//	}
-//	if res.StatusCode != http.StatusOK {
-//		t.Errorf("expected status OK; got %v", res.Status)
-//	}
-//
-//	b, err := ioutil.ReadAll(res.Body)
-//	if err != nil {
-//		t.Fatalf("could not read response: %v", err)
-//	}
-//	_, err = strconv.Atoi(string(b))
-//	if err != nil {
-//		t.Fatalf("expected an integer; got %s,",err.Error())
-//	}
-//}
-
-//Test Checks Validation
-//func TestArticleController_GetAll(t *testing.T) {
-//
-//
-//	tests := []struct {
-//		name    string
-//		url 	string
-//
-//		args    Article
-//		wantErr bool
-//	}{
-//		{"case 01", Article{ID: 0, Title: "", Body: "",
-//			Category: Category{}, CategoryName: "", Publisher: Publisher{}, PublisherName: "",
-//			CreatedAt: time.Time{}, PublishedAt: time.Time{}, UpdatedAt: time.Time{}}, true},
-//		{"case 02", Article{ID: 1, Title: "Love of Money", Body: "Love of Money",
-//			Category: Category{}, CategoryName: "Money", Publisher: Publisher{}, PublisherName: "tunde",
-//			CreatedAt: time.Time{}, PublishedAt: time.Time{}, UpdatedAt: time.Time{}}, true},
-//	}
-//
-//	for _, tt := range tests {
-//		t.Run(tt.name, func(t *testing.T) {
-//			err := tt.args.Validate()
-//
-//			if err != nil && !tt.wantErr {
-//				t.Errorf("unable to validate data:%v", err)
-//			}
-//			if tt.wantErr {
-//				return
-//			}
-//		})
-//	}
-//}
-
-
-func TestArticleController_Create(t *testing.T) {
+func TestNewArticleController_Create(t *testing.T) {
 
 	tests := []struct {
 		name    string
@@ -133,6 +76,8 @@ func TestArticleController_Create(t *testing.T) {
 		{"case 03", `{ "body": "Andela is the best office to work in ajjfdsfdfskjfv ",
 								"category": "Extras","publisher": "Femonofsky"}`, true},
 		{"case 04", `{ "title": "Tommy test","category": "Extras","publisher": "Femonofsky"}`, true},
+		{"case 05", `{ "title": "Money in the bank","body": "Andela is the best office to work in ajjfdsfdfskjfv ",
+								"category": "Extras","publisher": "Femonofsky"}`, false},
 	}
 
 	for _, tt := range tests {
@@ -141,7 +86,7 @@ func TestArticleController_Create(t *testing.T) {
 			res, err := http.Post(fmt.Sprintf("%s/article/", server.URL),
 				"application/json",strings.NewReader(tt.args))
 			if err != nil {
-				t.Fatalf("could not send GET request: %v", err)
+				t.Fatalf("could not send POST request: %v", err)
 			}
 			if res.StatusCode != http.StatusCreated && !tt.wantErr {
 				t.Errorf("expected status created; got %v", res.Status)
@@ -150,8 +95,7 @@ func TestArticleController_Create(t *testing.T) {
 				return
 			}
 
-			b, err := ioutil.ReadAll(res.Body)
-			fmt.Printf("%v", string(b))
+			_, err = ioutil.ReadAll(res.Body)
 			if err != nil {
 				t.Fatalf("could not read response: %v", err)
 				}
@@ -159,8 +103,7 @@ func TestArticleController_Create(t *testing.T) {
 	}
 }
 
-
-func TestArticleController_GetAll(t *testing.T) {
+func TestNewArticleController_GetAll(t *testing.T) {
 	tests := []struct {
 		name    string
 		filter	string
@@ -176,7 +119,7 @@ func TestArticleController_GetAll(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			url := fmt.Sprintf("%s/article%s", server.URL, tt.filter)
+			url := fmt.Sprintf("%s/article/%s", server.URL, tt.filter)
 			res, err := http.Get(url)
 			if err != nil {
 				t.Fatalf("could not send GET request: %v", err)
@@ -196,14 +139,103 @@ func TestArticleController_GetAll(t *testing.T) {
 	}
 }
 
-func TestArticleController_Get(t *testing.T) {
+func TestNewArticleController_Get(t *testing.T) {
+	tests := []struct {
+		name    string
+		params	string
+		wantErr bool
+	}{
+		{"case 01", `1`, false},
+		{"case 02", `990`,  true},
+	}
 
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			url := fmt.Sprintf("%s/article/%s", server.URL, tt.params)
+			res, err := http.Get(url)
+			if err != nil {
+				t.Fatalf("could not send GET request: %v", err)
+			}
+			if res.StatusCode != http.StatusOK && !tt.wantErr {
+				t.Errorf("expected status ok; got %v", res.Status)
+			}
+			if tt.wantErr {
+				return
+			}
+
+			_, err = ioutil.ReadAll(res.Body)
+			if err != nil {
+				t.Fatalf("could not read response: %v", err)
+			}
+		})
+	}
 }
 
-func TestArticleController_Put(t *testing.T) {
+func TestNewArticleController_Put(t *testing.T) {
+	tests := []struct {
+		name    string
+		params	string
+		body	string
+		wantErr bool
+	}{
+		{"case 01", `1`, `{"body": "money in the bank"}`, false},
+		{"case 02", `990`, `{"body": "money in the bank"}`, true},
+		{"case 03", `2`, `{"title": "Tommy test"}`,  true},
+	}
 
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			client := http.Client{}
+			url := fmt.Sprintf("%s/article/%s", server.URL, tt.params)
+			req, err := http.NewRequest(http.MethodPut, url, strings.NewReader(tt.body))
+			if err != nil {
+				t.Fatalf("could not send PUT request: %v", err)
+			}
+			res, err := client.Do(req)
+			if res.StatusCode != http.StatusOK && !tt.wantErr {
+				t.Errorf("expected status ok; got %v", res.Status)
+			}
+			if tt.wantErr {
+				return
+			}
+			_, err = ioutil.ReadAll(res.Body)
+			if err != nil {
+				t.Fatalf("could not read response: %v", err)
+			}
+		})
+	}
 }
 
-func TestArticleController_Delete(t *testing.T) {
+func TestNewArticleController_Delete(t *testing.T) {
+	tests := []struct {
+		name    string
+		params	string
+		wantErr bool
+	}{
+		{"case 01", `1`, false},
+		{"case 02", `990`, true},
+		{"case 03", `2`,  false},
+	}
 
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			client := http.Client{}
+			url := fmt.Sprintf("%s/article/%s", server.URL, tt.params)
+			req, err := http.NewRequest(http.MethodDelete, url, nil)
+			if err != nil {
+				t.Fatalf("could not send DELETE request: %v", err)
+			}
+			res, err := client.Do(req)
+			if res.StatusCode != http.StatusNoContent && !tt.wantErr {
+				t.Errorf("expected status ok; got %v", res.Status)
+			}
+			if tt.wantErr {
+				return
+			}
+			_, err = ioutil.ReadAll(res.Body)
+			if err != nil {
+				t.Fatalf("could not read response: %v", err)
+			}
+		})
+	}
 }

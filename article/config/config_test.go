@@ -35,3 +35,10 @@ func TestFromFile(t *testing.T) {
 		})
 	}
 }
+
+
+//Example
+func ExampleFromFile() {
+	path := "./config.json"
+	FromFile(path)
+}

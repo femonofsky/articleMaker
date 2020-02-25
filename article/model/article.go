@@ -79,7 +79,7 @@ func (article *Article) Validate() error {
 	return validate.Struct(article)
 }
 
-// BeforeSave Gorm trigger before saving the article
+// BeforeSave is triggered by Gorm before saving the article
 func (article *Article) BeforeSave() error {
 	category := Category{}
 	if err := Db.FirstOrCreate(&category, Category{Name: article.CategoryName}).Error; err != nil {
@@ -129,9 +129,10 @@ func UpdateArticle(id int, article *Article) error {
 		return err
 	}
 
-	if err = Db.Debug().Model(arr).Update(article).Error; err != nil {
+	if err = Db.Debug().Model(arr).Update(article).First(&article).Error; err != nil {
 		return err
 	}
+
 	return nil
 }
 

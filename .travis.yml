@@ -6,4 +6,3 @@ services:
 
 script: go test -v ./article/config/.  && go test -v ./article/controller/.  && go test -v ./article/model/.
 #  - "cd wordcounter/"
-#  -

@@ -8,6 +8,7 @@ import (
 	"net/http"
 )
 
+// Custom struct for response
 type response struct {
 	Success bool        `json:"success"`
 	Data    interface{} `json:"data"`

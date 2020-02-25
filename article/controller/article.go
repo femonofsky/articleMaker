@@ -109,9 +109,7 @@ func (ac *ArticleController) Put(w io.Writer, r *http.Request) (interface{}, int
 	if err != nil {
 		return nil, http.StatusBadRequest, err
 	}
-	if err  = article.Validate(); err != nil {
-		return nil, http.StatusBadRequest, err
-	}
+
 	err = model.UpdateArticle(id, article)
 	if err != nil {
 		return nil, http.StatusBadRequest, fmt.Errorf("unable to upload article got: %v", err)

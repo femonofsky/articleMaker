@@ -29,6 +29,7 @@ and  [config.json](https://github.com/femonofsky/articleMaker/blob/master/articl
 }
 ```
 
+
 ```bash
 # Build and Run
 cd article
@@ -37,6 +38,8 @@ go build
 
 # API Endpoint : http://127.0.0.1:8000
 ```
+### Database
+This project support **postgres** and **mysql** DB
 
 ## Structure
 ```
