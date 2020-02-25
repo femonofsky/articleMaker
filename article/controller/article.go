@@ -2,7 +2,7 @@ package controller
 
 import (
 	"fmt"
-	"github.com/femonofsky/ArticleMaker/article/model"
+	"github.com/femonofsky/articleMaker/article/model"
 	"github.com/gorilla/mux"
 	"io"
 	"log"

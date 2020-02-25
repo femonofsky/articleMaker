@@ -2,7 +2,7 @@ package model
 
 import (
 	"bytes"
-	"github.com/femonofsky/ArticleMaker/article/config"
+	"github.com/femonofsky/articleMaker/article/config"
 	"io/ioutil"
 	"log"
 	"os"

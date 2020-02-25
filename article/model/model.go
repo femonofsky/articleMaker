@@ -2,7 +2,7 @@ package model
 
 import (
 	"fmt"
-	"github.com/femonofsky/ArticleMaker/article/config"
+	"github.com/femonofsky/articleMaker/article/config"
 	"github.com/jinzhu/gorm"
 	// This loads the mysql database driver
 	_ "github.com/jinzhu/gorm/dialects/mysql"

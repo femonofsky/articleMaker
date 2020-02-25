@@ -2,8 +2,8 @@ package controller
 
 import (
 	"fmt"
-	"github.com/femonofsky/ArticleMaker/article/config"
-	"github.com/femonofsky/ArticleMaker/article/model"
+	"github.com/femonofsky/articleMaker/article/config"
+	"github.com/femonofsky/articleMaker/article/model"
 	"github.com/jinzhu/gorm"
 	"io/ioutil"
 	"log"

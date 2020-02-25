@@ -3,14 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/femonofsky/ArticleMaker/article/config"
-	"github.com/femonofsky/ArticleMaker/article/controller"
-	"github.com/femonofsky/ArticleMaker/article/model"
+	"github.com/femonofsky/articleMaker/article/config"
+	"github.com/femonofsky/articleMaker/article/controller"
+	"github.com/femonofsky/articleMaker/article/model"
 	"log"
 	"net/http"
 	"os"
 )
-
 
 func main() {
 
