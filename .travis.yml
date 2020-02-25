@@ -5,6 +5,7 @@ services:
   - postgresql
 
 script:
+  - export GO111MODULE=on
   - cd ./article
 #  - go test ./..
   - make test
