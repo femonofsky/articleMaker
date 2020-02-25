@@ -4,4 +4,5 @@ vendor
 model/articleTest.db
 config/articleTest.db
 controller/articleTest.db
-./bin/
+./bin/.
+bin

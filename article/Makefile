@@ -9,7 +9,6 @@ GOBASE := $(shell pwd)
 GOPATH := $(GOBASE)/vendor:$(GOBASE)
 GOBIN := $(GOBASE)/bin
 GOFILES := $(wildcard *.go)
-GOCONFIG := "$(wildcard *.json)"
 
 # Use linker flags to provide version/build settings
 LDFLAGS=-ldflags "-X=main.Version=$(VERSION) -X=main.Build=$(BUILD)"
@@ -26,17 +25,18 @@ MAKEFLAGS += --silent
 ## install: Install missing dependencies. Runs `go get` internally. e.g; make install get=github.com/foo/bar
 install: go-get
 
-## test code
+## test: Run all testcases.
 test: go-test
+
 ## start: Start in development mode. Auto-starts when code changes.
-run:
+start:
 	@bash -c "trap 'make stop' EXIT; $(MAKE) clean compile start-server watch run='make clean compile start-server'"
 
 ## stop: Stop development mode.
 stop: stop-server
 
 start-server: stop-server
-	@echo "  >  $(PROJECTNAME) is available at $(ADDR)"
+	@echo "  >  $(PROJECTNAME) is available"
 	@-$(GOBIN)/$(PROJECTNAME) 2>&1 & echo $$! > $(PID)
 	@cat $(PID) | sed "/^/s/^/  \>  PID: /"
 
@@ -47,7 +47,9 @@ stop-server:
 
 ## watch: Run given command when code changes. e.g; make watch run="echo 'hey'"
 watch:
+	@echo "  >  About to watch"
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) yolo -i . -e vendor -e bin -c "$(run)"
+
 
 restart-server: stop-server start-server
 
@@ -71,13 +73,14 @@ go-compile: go-get go-build
 
 go-build:
 	@echo "  >  Building binary..."
-	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go build  $(LDFLAGS) -o $(GOBIN)/$(PROJECTNAME) $(GOFILES) $(GOCONFIG)
+	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go build  $(LDFLAGS) -o $(GOBIN)/$(PROJECTNAME) $(GOFILES)
 
 go-test:
-	@echo " > Testes"
+	@echo " > Running testcases"
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go test -v ./config/
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go test -v ./model/
-	#@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go test -v ./controller/
+	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go test -v ./controller/
+
 go-generate:
 	@echo "  >  Generating dependency files..."
 	@GOPATH=$(GOPATH) GOBIN=$(GOBIN) go generate $(generate)

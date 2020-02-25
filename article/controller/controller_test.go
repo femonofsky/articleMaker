@@ -15,6 +15,7 @@ import (
 )
 
 var server *httptest.Server
+
 func TestMain(m *testing.M) {
 	cfg := config.Config{
 		DB: config.DB{
@@ -61,7 +62,6 @@ func refreshAllTable(Db *gorm.DB) error {
 	return nil
 }
 
-
 func TestNewArticleController_Create(t *testing.T) {
 
 	tests := []struct {
@@ -84,7 +84,7 @@ func TestNewArticleController_Create(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 
 			res, err := http.Post(fmt.Sprintf("%s/article/", server.URL),
-				"application/json",strings.NewReader(tt.args))
+				"application/json", strings.NewReader(tt.args))
 			if err != nil {
 				t.Fatalf("could not send POST request: %v", err)
 			}
@@ -98,7 +98,7 @@ func TestNewArticleController_Create(t *testing.T) {
 			_, err = ioutil.ReadAll(res.Body)
 			if err != nil {
 				t.Fatalf("could not read response: %v", err)
-				}
+			}
 		})
 	}
 }
@@ -106,7 +106,7 @@ func TestNewArticleController_Create(t *testing.T) {
 func TestNewArticleController_GetAll(t *testing.T) {
 	tests := []struct {
 		name    string
-		filter	string
+		filter  string
 		want    int
 		wantErr bool
 	}{
@@ -142,11 +142,11 @@ func TestNewArticleController_GetAll(t *testing.T) {
 func TestNewArticleController_Get(t *testing.T) {
 	tests := []struct {
 		name    string
-		params	string
+		params  string
 		wantErr bool
 	}{
 		{"case 01", `1`, false},
-		{"case 02", `990`,  true},
+		{"case 02", `990`, true},
 	}
 
 	for _, tt := range tests {
@@ -174,13 +174,13 @@ func TestNewArticleController_Get(t *testing.T) {
 func TestNewArticleController_Put(t *testing.T) {
 	tests := []struct {
 		name    string
-		params	string
-		body	string
+		params  string
+		body    string
 		wantErr bool
 	}{
 		{"case 01", `1`, `{"body": "money in the bank"}`, false},
 		{"case 02", `990`, `{"body": "money in the bank"}`, true},
-		{"case 03", `2`, `{"title": "Tommy test"}`,  true},
+		{"case 03", `2`, `{"title": "Tommy test"}`, true},
 	}
 
 	for _, tt := range tests {
@@ -209,12 +209,12 @@ func TestNewArticleController_Put(t *testing.T) {
 func TestNewArticleController_Delete(t *testing.T) {
 	tests := []struct {
 		name    string
-		params	string
+		params  string
 		wantErr bool
 	}{
 		{"case 01", `1`, false},
 		{"case 02", `990`, true},
-		{"case 03", `2`,  false},
+		{"case 03", `2`, false},
 	}
 
 	for _, tt := range tests {

@@ -27,14 +27,14 @@ func (ac *ArticleController) GetAll(w io.Writer, r *http.Request) (interface{}, 
 	}
 
 	if createdAt := r.FormValue("created_at"); createdAt != "" {
-		vale, err  := time.Parse(model.DateTimeLayout,createdAt)
+		vale, err := time.Parse(model.DateTimeLayout, createdAt)
 		if err != nil {
 			return nil, http.StatusBadRequest, fmt.Errorf("wrong format of date %v", err)
 		}
 		article.CreatedAt = vale
 	}
 	if publishedAt := r.FormValue("published_at"); publishedAt != "" {
-		vale, err  := time.Parse(model.DateTimeLayout,publishedAt)
+		vale, err := time.Parse(model.DateTimeLayout, publishedAt)
 		if err != nil {
 			return nil, http.StatusBadRequest, fmt.Errorf("wrong format of date %v", err)
 		}
@@ -55,7 +55,7 @@ func (ac *ArticleController) Create(w io.Writer, r *http.Request) (interface{}, 
 	if err != nil {
 		return nil, http.StatusBadRequest, err
 	}
-	if err  = article.Validate(); err != nil {
+	if err = article.Validate(); err != nil {
 		return nil, http.StatusBadRequest, err
 	}
 
@@ -92,7 +92,7 @@ func (ac *ArticleController) Delete(w io.Writer, r *http.Request) (interface{}, 
 		return nil, http.StatusBadRequest, fmt.Errorf("invalid Id got: %v, %v", id, err)
 	}
 	if err = model.DeleteArticle(id); err != nil {
-		return  nil, http.StatusBadRequest, err
+		return nil, http.StatusBadRequest, err
 	}
 
 	return nil, http.StatusNoContent, nil
@@ -120,5 +120,5 @@ func (ac *ArticleController) Put(w io.Writer, r *http.Request) (interface{}, int
 
 // newArticle creates a new Article Handle
 func newArticle(logger *log.Logger) *ArticleController {
-	return &ArticleController{logger:logger}
+	return &ArticleController{logger: logger}
 }

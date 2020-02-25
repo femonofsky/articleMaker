@@ -14,7 +14,6 @@ type response struct {
 	Data    interface{} `json:"data"`
 }
 
-
 // Register all Controllers and its Routes
 func New(logger *log.Logger) *mux.Router {
 
@@ -67,4 +66,3 @@ func responseHandler(h func(io.Writer, *http.Request) (interface{}, int, error))
 
 	}
 }
-

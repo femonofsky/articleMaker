@@ -11,6 +11,7 @@ import (
 	"os"
 )
 
+
 func main() {
 
 	configPath := flag.String("config", "./config/config.json", "path of the config file")
@@ -25,14 +26,14 @@ func main() {
 	// load Config from file
 	cfg, err := config.FromFile(*configPath)
 	if err != nil {
-		logger.Fatal("file not found" +err.Error())
+		logger.Fatal("file not found" + err.Error())
 	}
-
 	// Initialize Database
 	DB, err := model.New(cfg)
 	if err != nil {
 		logger.Fatalf("could not initialize DB connection : %v ", err.Error())
 	}
+
 	// Migrate all Table into DB if it doesn't exist
 	DB = model.Migrate(DB)
 
