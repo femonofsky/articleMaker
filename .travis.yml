@@ -12,5 +12,11 @@ email: false
 
 
 script:
+  - cd ./wordcounter
+  - go test .
+  - cd ../
   - cd ./article
-  - go test -v ./..
+  - go test ./config/.
+  - go test ./controller/.
+  - go test ./model/.
+#  - go test -v ./..
